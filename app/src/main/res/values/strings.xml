@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">loco</string>
+    <string name="app_name">Loco</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="reg_prompt">new user ? Register</string>
 </resources>
