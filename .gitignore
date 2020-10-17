@@ -1,0 +1,25 @@
+*.iml
+*iml
+
+.DS_Store
+.gradle
+
+.idea/
+/.idea/assetWizardSettings.xml
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/navEditor.xml
+/.idea/workspace.xml
+
+/local.properties
+
+# Built files
+*/build
+/build
+*.apk
+app/**/output.json
+
+/captures
+.externalNativeBuild
+.cxx
