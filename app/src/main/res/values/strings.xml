@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">Loco</string>
+    <string name="app_name">loco</string>
     <string name="username">Username</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="reg_prompt">new user ? Register</string>
+    <string name="phonenumber">PhoneNumber</string>
+    <string name="_10_digit_number">10 digit number</string>
+    <string name="register">REGISTER</string>
+    <string name="title">Title</string>
+    <string name="this_is_a_description">This is a description</string>
 </resources>

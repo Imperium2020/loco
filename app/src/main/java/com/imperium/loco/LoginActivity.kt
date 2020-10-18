@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun requestRegister(view: View) {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
     }
 }
