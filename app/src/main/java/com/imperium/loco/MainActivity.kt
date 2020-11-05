@@ -29,8 +29,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun postTolist() {
-        for (i in 1..25) {
-            addToList("Title $i","Description $i", R.mipmap.ic_launcher_round)
+        for (i in 1..4) {
+            addToList("BOOKING","Ticket booking", R.mipmap.ic_launcher_round)
+            addToList("CANCELLATION","Cancel ticket", R.mipmap.ic_launcher_round)
+            addToList("SCHEDULE","Train timings", R.mipmap.ic_launcher_round)
+            addToList("VIEW TICKET","check ticket status", R.mipmap.ic_launcher_round)
+
         }
     }
 }
