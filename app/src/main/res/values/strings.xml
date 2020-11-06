@@ -1,7 +1,20 @@
 <resources>
     <string name="app_name">Loco</string>
-    <string name="username">Username</string>
+    <string name="welcome">WELCOME</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+
     <string name="login">Login</string>
+    <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="reg_prompt">new user ? Register</string>
+    <string name="phone_no">Phone No</string>
+    <string name="register">Register</string>
+
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in_to_continue">Sign In to Continue</string>
+    <string name="sign_up_to_start_your_new_journey">SignUp to start your new journey!</string>
+
+        <string name="new_user_sign_up">New User? Sign Up</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
 </resources>

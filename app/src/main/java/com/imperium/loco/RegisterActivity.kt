@@ -10,16 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.imperium.loco.database.AppDatabase
 import com.imperium.loco.database.AppDatabaseDao
-import com.imperium.loco.databinding.ActivityLoginBinding
+import com.imperium.loco.database.User
+import com.imperium.loco.databinding.ActivityRegisterBinding
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var layoutBinding: ActivityLoginBinding
+class RegisterActivity : AppCompatActivity() {
+    private lateinit var layoutBinding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layoutBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        layoutBinding = DataBindingUtil.setContentView(this, R.layout.activity_register)
+
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -29,54 +31,59 @@ class LoginActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
-        layoutBinding.btnLogin.setOnClickListener {
-            val userName = layoutBinding.username.text.toString()
-            val password = layoutBinding.password.text.toString()
 
-            if (validateInput(userName, password)) {
+        layoutBinding.registerButton.setOnClickListener {
+            val regUser = User(
+                fullName = layoutBinding.name.text.toString(),
+                email = layoutBinding.email.text.toString(),
+                password = layoutBinding.password.text.toString(),
+                phone = layoutBinding.phoneNo.text.toString(),
+                userName = layoutBinding.username.text.toString()
+            )
+            if (validateInput(regUser)) {
                 val appDb: AppDatabase = AppDatabase.getInstance(applicationContext)
                 val dao: AppDatabaseDao = appDb.appDatabaseDao
                 thread {
-                    val user = dao.login(userName)
-                    when {
-                        user == null -> putToast("User not Found! Please Register.")
-                        user.password != password -> putToast("Invalid credentials")
-                        else -> {
-                            putToast("Welcome to ${getString(R.string.app_name)}, $userName")
-                            startActivity(
-                                Intent(
-                                    this@LoginActivity,
-                                    MainActivity::class.java
-                                ).putExtra("userId", user.userId)
-                            )
+                    when (dao.login(regUser.userName)) {
+                        null -> {
+                            dao.createUser(regUser)
+                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                             finish()
                         }
+                        regUser -> putToast("User already Exist!")
+                        else -> putToast("Username unavailable.")
                     }
                 }
+
             }
         }
-        layoutBinding.btnRegister.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+        layoutBinding.loginButton.setOnClickListener {
+            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            finish()
         }
     }
 
     private fun putToast(msg: String) {
         runOnUiThread {
-            Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_LONG).show()
+            Toast.makeText(this@RegisterActivity, msg, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun validateInput(userName: String, password: String): Boolean {
+    private fun validateInput(user: User): Boolean {
         val passChecker = listOf(
             "^(.{0,7}|.{21,})$",
             "^([^A-Za-z]*)$",
             "^([^0-9]*)$",
             "^([a-zA-Z0-9]*)$",
             "[^\\s]*\\s.*"
-        ).map { Pattern.compile(it).matcher(password).matches() }
-
+        ).map { Pattern.compile(it).matcher(user.password).matches() }
+        val emailParse = Pattern.compile("^([a-zA-Z0-9_.-]+)@([a-zA-Z0-9_.-]+).([a-zA-Z]{2,5})$")
+            .matcher(user.email)
         val msg = when {
-            userName.isEmpty() -> "Username not entered."
+            user.fullName.isEmpty() -> "Full Name not entered."
+            user.userName.isEmpty() -> "Username not entered."
+            user.email.isEmpty() or !emailParse.matches() -> "Email is not valid."
+            user.phone.length != 10 -> "Phone Number is not valid."
             passChecker[0] -> "Length of Password should be in range (8, 20)"
             passChecker[1] -> "Password should contain at least one alphabet"
             passChecker[2] -> "Password should contain at least one digit"
@@ -86,7 +93,8 @@ class LoginActivity : AppCompatActivity() {
         }
         return if (msg == null) true
         else {
-            putToast(msg)
+            Toast.makeText(this@RegisterActivity, msg, Toast.LENGTH_LONG)
+                .show()
             false
         }
     }
