@@ -1,25 +1,25 @@
 package com.imperium.loco
 
 import android.os.Build
-import android.net.LinkAddress
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.imperium.loco.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateint var mainDatabind: ActivityMainBinding
+    private lateinit var mainDatabind: ActivityMainBinding
     private var titlesList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
     private var imagesList = mutableListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        mainDatabind = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -32,21 +32,22 @@ class MainActivity : AppCompatActivity() {
 
         postTolist()
 
-        mainDatabind.rv_recyclerView.layoutManager = LinearLayoutManager(this)
-        mainDatabind.rv_recyclerView.adapter = RecyclerAdapter(titlesList,descList,imagesList)
+        mainDatabind.rvRecyclerView.layoutManager = LinearLayoutManager(this)
+        mainDatabind.rvRecyclerView.adapter = RecyclerAdapter(titlesList, descList, imagesList)
 
     }
-    private fun addToList(title: String,description: String,image: Int){
+
+    private fun addToList(title: String, description: String) {
         titlesList.add(title)
         descList.add(description)
-        imagesList.add(image)
+        imagesList.add(R.mipmap.ic_launcher_round)
     }
 
     private fun postTolist() {
-            addToList("BOOKING","Ticket booking", R.mipmap.ic_launcher_round)
-            addToList("CANCELLATION","Cancel ticket", R.mipmap.ic_launcher_round)
-            addToList("SCHEDULE","Train timings", R.mipmap.ic_launcher_round)
-            addToList("VIEW TICKET","check ticket status", R.mipmap.ic_launcher_round)
+        addToList("BOOKING", "Ticket booking")
+        addToList("CANCELLATION", "Cancel ticket")
+        addToList("SCHEDULE", "Train timings")
+        addToList("VIEW TICKET", "check ticket status")
 
     }
 }
