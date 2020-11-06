@@ -13,7 +13,7 @@
 
     <string name="forgot_password">Forgot Password?</string>
     <string name="sign_in_to_continue">Sign In to Continue</string>
-    <string name="signup_to_start_your_new_journey">SignUp to start your new journey!</string>
+    <string name="sign_up_to_start_your_new_journey">SignUp to start your new journey!</string>
 
         <string name="new_user_sign_up">New User? Sign Up</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>

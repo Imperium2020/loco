@@ -14,7 +14,13 @@ interface AppDatabaseDao {
     @Update
     fun update(user: User)
 
-    @Query("SELECT * from UserTable WHERE userId = :key")
+    @Query("SELECT * from UserTable WHERE userId=(:key)")
     fun get(key: Long): User?
+
+    @Query("SELECT password from UserTable WHERE userName=(:name)")
+    fun getPassword(name: String): String?
+
+    @Query("SELECT * from UserTable WHERE userName=(:name)")
+    fun login(name: String): User?
 
 }
