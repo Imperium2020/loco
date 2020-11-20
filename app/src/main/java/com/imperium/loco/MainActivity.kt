@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.imperium.loco.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mainDatabind: ActivityMainBinding
+    private lateinit var mainDataBind: ActivityMainBinding
     private var titlesList = mutableListOf<String>()
     private var descList = mutableListOf<String>()
     private var imagesList = mutableListOf<Int>()
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainDatabind = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        mainDataBind = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        postTolist()
+        postToList()
 
-        mainDatabind.rvRecyclerView.layoutManager = LinearLayoutManager(this)
-        mainDatabind.rvRecyclerView.adapter = RecyclerAdapter(titlesList, descList, imagesList)
+        mainDataBind.rvRecyclerView.layoutManager = LinearLayoutManager(this)
+        mainDataBind.rvRecyclerView.adapter = RecyclerAdapter(titlesList, descList, imagesList)
 
     }
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         imagesList.add(R.mipmap.ic_launcher_round)
     }
 
-    private fun postTolist() {
+    private fun postToList() {
         addToList("BOOKING", "Ticket booking")
         addToList("CANCELLATION", "Cancel ticket")
         addToList("SCHEDULE", "Train timings")

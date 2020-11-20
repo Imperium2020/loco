@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.imperium.loco.database.AppDatabase
-import com.imperium.loco.database.AppDatabaseDao
 import com.imperium.loco.database.User
+import com.imperium.loco.database.UserDao
 import com.imperium.loco.databinding.ActivityRegisterBinding
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
@@ -42,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
             )
             if (validateInput(regUser)) {
                 val appDb: AppDatabase = AppDatabase.getInstance(applicationContext)
-                val dao: AppDatabaseDao = appDb.appDatabaseDao
+                val dao: UserDao = appDb.userDao
                 thread {
                     when (dao.login(regUser.userName)) {
                         null -> {
@@ -63,13 +63,29 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun putToast(msg: String) {
+    private fun putToast(msg: String?): Boolean {
+        if (msg.isNullOrEmpty()) return true
         runOnUiThread {
             Toast.makeText(this@RegisterActivity, msg, Toast.LENGTH_LONG).show()
         }
+        return false
     }
 
     private fun validateInput(user: User): Boolean {
+
+        val emailParse = Pattern.compile("^([a-zA-Z0-9_.-]+)@([a-zA-Z0-9_.-]+).([a-zA-Z]{2,5})$")
+            .matcher(user.email)
+        val test1 = putToast(
+            when {
+                user.fullName.isEmpty() -> "Full Name not entered."
+                user.userName.isEmpty() -> "Username not entered."
+                user.email.isEmpty() or !emailParse.matches() -> "Email is not valid."
+                user.phone.length != 10 -> "Phone Number is not valid."
+                else -> null
+            }
+        )
+        if (test1) return false
+
         val passChecker = listOf(
             "^(.{0,7}|.{21,})$",
             "^([^A-Za-z]*)$",
@@ -77,25 +93,16 @@ class RegisterActivity : AppCompatActivity() {
             "^([a-zA-Z0-9]*)$",
             "[^\\s]*\\s.*"
         ).map { Pattern.compile(it).matcher(user.password).matches() }
-        val emailParse = Pattern.compile("^([a-zA-Z0-9_.-]+)@([a-zA-Z0-9_.-]+).([a-zA-Z]{2,5})$")
-            .matcher(user.email)
-        val msg = when {
-            user.fullName.isEmpty() -> "Full Name not entered."
-            user.userName.isEmpty() -> "Username not entered."
-            user.email.isEmpty() or !emailParse.matches() -> "Email is not valid."
-            user.phone.length != 10 -> "Phone Number is not valid."
-            passChecker[0] -> "Length of Password should be in range (8, 20)"
-            passChecker[1] -> "Password should contain at least one alphabet"
-            passChecker[2] -> "Password should contain at least one digit"
-            passChecker[3] -> "Password should contain at least one special character."
-            passChecker[4] -> "Password should not contain spaces."
-            else -> null
-        }
-        return if (msg == null) true
-        else {
-            Toast.makeText(this@RegisterActivity, msg, Toast.LENGTH_LONG)
-                .show()
-            false
-        }
+
+        return putToast(
+            when {
+                passChecker[0] -> "Length of Password should be in range (8, 20)"
+                passChecker[1] -> "Password should contain at least one alphabet"
+                passChecker[2] -> "Password should contain at least one digit"
+                passChecker[3] -> "Password should contain at least one special character."
+                passChecker[4] -> "Password should not contain spaces."
+                else -> null
+            }
+        )
     }
 }

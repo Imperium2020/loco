@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.imperium.loco.database.AppDatabase
-import com.imperium.loco.database.AppDatabaseDao
+import com.imperium.loco.database.UserDao
 import com.imperium.loco.databinding.ActivityLoginBinding
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
@@ -32,10 +32,9 @@ class LoginActivity : AppCompatActivity() {
         layoutBinding.btnLogin.setOnClickListener {
             val userName = layoutBinding.username.text.toString()
             val password = layoutBinding.password.text.toString()
-
             if (validateInput(userName, password)) {
                 val appDb: AppDatabase = AppDatabase.getInstance(applicationContext)
-                val dao: AppDatabaseDao = appDb.appDatabaseDao
+                val dao: UserDao = appDb.userDao
                 thread {
                     val user = dao.login(userName)
                     when {
@@ -47,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
                                 Intent(
                                     this@LoginActivity,
                                     MainActivity::class.java
-                                ).putExtra("userId", user.userId)
+                                ).putExtra("userId", user.id)
                             )
                             finish()
                         }
@@ -60,10 +59,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun putToast(msg: String) {
+    private fun putToast(msg: String?): Boolean {
+        if (msg.isNullOrEmpty()) return true
         runOnUiThread {
             Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_LONG).show()
         }
+        return false
     }
 
     private fun validateInput(userName: String, password: String): Boolean {
@@ -75,19 +76,16 @@ class LoginActivity : AppCompatActivity() {
             "[^\\s]*\\s.*"
         ).map { Pattern.compile(it).matcher(password).matches() }
 
-        val msg = when {
-            userName.isEmpty() -> "Username not entered."
-            passChecker[0] -> "Length of Password should be in range (8, 20)"
-            passChecker[1] -> "Password should contain at least one alphabet"
-            passChecker[2] -> "Password should contain at least one digit"
-            passChecker[3] -> "Password should contain at least one special character."
-            passChecker[4] -> "Password should not contain spaces."
-            else -> null
-        }
-        return if (msg == null) true
-        else {
-            putToast(msg)
-            false
-        }
+        return putToast(
+            when {
+                userName.isEmpty() -> "Username not entered."
+                passChecker[0] -> "Password should have length in range (8, 20)"
+                passChecker[1] -> "Password should contain at least one alphabet"
+                passChecker[2] -> "Password should contain at least one digit"
+                passChecker[3] -> "Password should contain at least one special character."
+                passChecker[4] -> "Password should not contain spaces."
+                else -> null
+            }
+        )
     }
 }
