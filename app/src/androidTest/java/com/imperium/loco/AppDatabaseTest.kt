@@ -3,9 +3,7 @@ package com.imperium.loco
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.imperium.loco.database.AppDatabase
-import com.imperium.loco.database.AppDatabaseDao
-import com.imperium.loco.database.User
+import com.imperium.loco.database.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -17,7 +15,11 @@ import java.io.IOException
 @RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
 
-    private lateinit var appDao: AppDatabaseDao
+    private lateinit var pantryDao: PantryDao
+    private lateinit var passengerDao: PassengerDao
+    private lateinit var ticketDao: TicketDao
+    private lateinit var trainDao: TrainDao
+    private lateinit var userDao: UserDao
     private lateinit var db: AppDatabase
 
     @Before
@@ -29,7 +31,11 @@ class AppDatabaseTest {
             // Allowing main thread queries, just for testing.
             .allowMainThreadQueries()
             .build()
-        appDao = db.appDatabaseDao
+        pantryDao = db.pantryDao
+        passengerDao = db.passengerDao
+        ticketDao = db.ticketDao
+        trainDao = db.trainDao
+        userDao = db.userDao
     }
 
     @After
@@ -40,10 +46,20 @@ class AppDatabaseTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertAndGetNight() {
-        val user = User()
-        appDao.createUser(user)
-        val testUser = appDao.get(user.userId)
-        assertEquals(testUser?.userId, user.userId)
+    fun createUser() {
+        val user = User(
+            fullName = "Test User",
+            email = "test.user@gmail.com",
+            userName = "tester",
+            password = "testerPass!234",
+            phone = "9876543210"
+        )
+        userDao.createUser(user)
+        val testUser: User? = userDao.get(user.id)
+        assertEquals(testUser?.fullName, user.fullName)
+        assertEquals(testUser?.email, user.email)
+        assertEquals(testUser?.userName, user.userName)
+        assertEquals(testUser?.password, user.password)
+        assertEquals(testUser?.phone, user.phone)
     }
 }
