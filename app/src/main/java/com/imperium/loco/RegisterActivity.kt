@@ -84,7 +84,7 @@ class RegisterActivity : AppCompatActivity() {
                 else -> null
             }
         )
-        if (test1) return false
+        if (!test1) return false
 
         val passChecker = listOf(
             "^(.{0,7}|.{21,})$",
