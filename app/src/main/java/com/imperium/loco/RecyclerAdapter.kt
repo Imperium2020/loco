@@ -1,12 +1,15 @@
 package com.imperium.loco
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.imperium.loco.database.Ticket
+
 
 class RecyclerAdapter(
     private var titles: List<String>,
@@ -23,12 +26,10 @@ class RecyclerAdapter(
 
         init {
             itemView.setOnClickListener { v: View ->
-                val position: Int = adapterPosition
-                Toast.makeText(
-                    itemView.context,
-                    "You clicked on item # ${position + 1}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val position= adapterPosition
+                val context=itemView.context
+                 val myIntent = Intent (context,TicketActivity::class.java)
+                context.startActivity(myIntent)
             }
         }
     }
