@@ -9,9 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".BookingActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity"/>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".BookingPassenger"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

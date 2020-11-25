@@ -26,6 +26,12 @@ data class Ticket(
     @ColumnInfo(name = "user_id")
     var userId: Long,
 
+    @ColumnInfo(name = "from_station")
+    var fromStation: String,
+
+    @ColumnInfo(name = "to_station")
+    var toStation: String,
+
     @Embedded
     var seats: Seats,
 

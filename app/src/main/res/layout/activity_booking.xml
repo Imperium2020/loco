@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            tools:context=".BookingActivity">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bungee"
+                android:text="Booking"
+                android:textSize="36sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/antic"
+                android:text="Insert details below:"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/antic"
+                    android:text="From Station"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/from_station"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/antic"
+                    android:text="To Station"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/to_station"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/antic"
+                    android:text="Seats"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Class A">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/seat_a"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Class B">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/seat_b"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Class C">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/seat_c"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/antic"
+                    android:text="Passengers"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_passenger"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_passenger" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/register_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_style"
+                android:text="Book Ticket" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

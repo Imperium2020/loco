@@ -32,7 +32,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-20dp"
                 android:fontFamily="@font/antic"
                 android:text="@string/sign_up_to_start_your_new_journey"
                 android:textSize="18sp" />

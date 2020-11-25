@@ -1,5 +1,6 @@
 package com.imperium.loco
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +23,23 @@ class RecyclerAdapter(
         val itemPicture: ImageView = itemView.findViewById(R.id.iv_image)
 
         init {
-            itemView.setOnClickListener { v: View ->
+            itemView.setOnClickListener {
                 val position: Int = adapterPosition
-                Toast.makeText(
-                    itemView.context,
-                    "You clicked on item # ${position + 1}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val context = itemView.context
+
+                val intent = when (adapterPosition) {
+                    0 -> Intent(itemView.context, BookingActivity::class.java)
+                    else -> null
+                }
+
+                if (intent == null) {
+                    Toast.makeText(
+                        context, "You clicked on item # ${position + 1}", Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    itemView.context.startActivity(intent)
+                }
+
             }
         }
     }
