@@ -19,4 +19,7 @@ interface TrainDao {
 
     @Query("SELECT * from trains WHERE source=(:src) and destination=(:dest)")
     fun get(src: String, dest: String): Train?
+
+    @Query("SELECT * from trains")
+    fun getAllTrains(): Array<Train>
 }
